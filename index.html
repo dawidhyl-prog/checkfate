@@ -576,6 +576,85 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
   #bossbar.exposed #boss-state { animation: none; }
   .menu-item::before { transition: none; }
 }
+
+/* The decree screen never scrolls: ui.fitDecrees() adds fit1..fit4 one by one, only while the cards still overflow */
+#screen-levelup.fit1 { padding-block: calc(env(safe-area-inset-top, 0px) + 8px) calc(env(safe-area-inset-bottom, 0px) + 8px); }
+#screen-levelup.fit1 .decree { gap: 8px; }
+#screen-levelup.fit1 h2 { font-size: 24px; line-height: 1.1; margin: 0; }
+#screen-levelup.fit1 .eyebrow { font-size: 11px; margin: 0; }
+#screen-levelup.fit1 #lv-cards { gap: 8px; }
+#screen-levelup.fit1 #lv-cards .card { grid-template-columns: 48px minmax(0, 1fr); }
+#screen-levelup.fit1 #lv-cards .card-art { min-height: 0; }
+#screen-levelup.fit1 #lv-cards .card-body { padding: 8px 10px 9px; gap: 4px; }
+#screen-levelup.fit1 #lv-cards .card kbd { display: none; }
+#screen-levelup.fit1 #lv-cards .card-top:not(:has(.tag)) { display: none; }
+#screen-levelup.fit1 #lv-cards .card-name { font-size: 19px; }
+#screen-levelup.fit1 #lv-cards .card-level { font-size: 11px; }
+#screen-levelup.fit1 #lv-cards .card-flavor { font-size: 13px; line-height: 1.3; }
+#screen-levelup.fit1 #lv-cards .card-effect { font-size: 13px; line-height: 1.35; }
+#screen-levelup.fit2 #lv-cards .card { grid-template-columns: minmax(0, 1fr); }
+#screen-levelup.fit2 #lv-cards .card-art { display: none; }
+#screen-levelup.fit2 #lv-cards .card-body { padding: 7px 10px 8px; gap: 3px; }
+#screen-levelup.fit3 #lv-cards .card-flavor { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+#screen-levelup.fit3 #lv-cards .card-name { font-size: 17px; }
+#screen-levelup.fit3 #lv-cards .card-effect { font-size: 12.5px; line-height: 1.3; }
+#screen-levelup.fit3 .perm-note { font-size: 11.5px; }
+#screen-levelup.fit4 .eyebrow, #screen-levelup.fit4 #lv-cards .card-flavor { display: none; }
+#screen-levelup.fit4 h2 { font-size: 20px; }
+#screen-levelup.fit4 #lv-cards { gap: 6px; }
+#screen-levelup.fit4 #lv-cards .card-effect { font-size: 12px; line-height: 1.28; }
+#screen-levelup.fit5 .lv-healed, #screen-levelup.fit5 #lv-cards .perm-note, #screen-levelup.fit5 #lv-cards .card-level > span:not(.pips) { display: none; }
+#screen-levelup.fit5 #lv-cards .tag { font-size: 9.5px; letter-spacing: 0.06em; }
+#screen-levelup.fit5 h2 { font-size: 18px; }
+#screen-levelup.fit5 #lv-cards .card-body { padding: 6px 8px 7px; gap: 2px; }
+#screen-levelup.fit6 #lv-cards .card-name { font-size: 15.5px; }
+#screen-levelup.fit6 #lv-cards .card-effect { font-size: 11px; line-height: 1.25; }
+#screen-levelup.fit6 .lv-spec-note { font-size: 11px; }
+
+/* Hearts always stand in one neat row at full size. On an upright phone the top row holds the hearts and the buttons,
+   and the clock gets a row of its own just below, so even five hearts with Refill and the Double fit without shrinking */
+#hud-hp { flex-wrap: nowrap; max-width: none; }
+#hud-hp i { flex: none; }
+@media (max-width: 520px) {
+  .hud-row { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "hp . right" "mid mid mid"; row-gap: 2px; column-gap: 8px; }
+  .hud-row > #hud-hp { grid-area: hp; }
+  .hud-row > .hud-mid { grid-area: mid; }
+  .hud-row > .hud-right { grid-area: right; gap: 6px; }
+  #hud-hp { gap: 3px; }
+  .kills { font-size: 12px; }
+}
+@media (max-width: 350px) { #btn-hud-music { display: none; } } /* only the narrowest phones: music stays in the pause menu */
+/* the felled count: on a narrow phone a small crossed-swords sign stands in for the word, so the top row keeps its room */
+.kills-ico { display: none; }
+.kills-ico .ico { width: 13px; height: 13px; vertical-align: -2px; margin-right: 3px; }
+@media (max-width: 420px) { .kills-ico { display: inline; } .kills-word { display: none; } }
+
+/* a tip over the decree screen (the first reign's decree tip): the cards recede behind a dark veil and the note glows gold */
+.tip.over { background: rgba(5,4,7,0.86); align-items: center; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); }
+.tip.over .tip-card { background: linear-gradient(to bottom, #3b2f1b, #231b10); border: 2px solid var(--gold); border-top-width: 4px; box-shadow: 0 0 0 5px rgba(201,167,95,0.16), 0 0 46px rgba(255,200,90,0.35), 0 18px 40px rgba(0,0,0,0.7); }
+.tip.over .tip-card h2 { color: #ffe7a6; }
+.tip.over .tip-step { color: #d9c9a6; }
+
+/* the on-screen joystick (bottom left, lifted above the skill buttons when they reach that far) */
+.stick { position: fixed; left: calc(max(16px, env(safe-area-inset-left, 0px)) + 2px); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 5;
+  width: 124px; height: 124px; border-radius: 50%; display: grid; place-items: center; pointer-events: auto; touch-action: none; -webkit-user-select: none; user-select: none;
+  background: radial-gradient(circle, rgba(201,167,95,0.08) 0 30%, rgba(7,6,9,0.42) 72%); border: 1.5px solid rgba(201,167,95,0.45); box-shadow: inset 0 0 18px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35); opacity: 0.82; }
+.stick::before { content: ""; position: absolute; inset: 14%; border-radius: 50%; border: 1px dashed rgba(201,167,95,0.25); }
+.stick-knob { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f6e3ac, #c09a53 60%, #7c5f2c); box-shadow: 0 3px 10px rgba(0,0,0,0.6), inset 0 -2px 4px rgba(0,0,0,0.35); transition: transform 0.09s ease-out; }
+.stick.on { opacity: 1; border-color: var(--gold); }
+.stick.on .stick-knob { transition: none; }
+@media (orientation: landscape) and (max-height: 520px) { .stick { width: 108px; height: 108px; } .stick-knob { width: 44px; height: 44px; } }
+/* the decree cards wait a moment before they can be picked (a tap meant for walking never picks one) */
+#lv-cards.arming .card { opacity: 0.55; pointer-events: none; }
+#lv-cards .card { transition: opacity 0.18s ease-out, transform 0.12s ease-out, border-color 0.12s; }
+
+/* with the joystick on an upright phone, the bottom left corner is the stick's: the skills and chips move to the right */
+@media (max-width: 600px) and (orientation: portrait) {
+  body.stick-on #status { align-items: flex-end; padding-left: 140px; }
+  body.stick-on #skillbar { justify-content: flex-end; padding-inline: 0; }
+  body.stick-on #chips { justify-content: flex-end; }
+  body.stick-on .skill { max-width: 100%; text-align: left; }
+}
 </style>
 
 <canvas id="board" data-i18n-aria="hud.board" aria-label="The chessboard. Swipe to move the king one square."></canvas>
@@ -586,7 +665,7 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
       <div id="hud-hp" role="img" aria-label="Health"></div>
       <div class="hud-mid"><div id="hud-clock" class="clock"><span id="hud-time">00:00</span><span class="of">/ <span id="hud-total">20:00</span></span></div><small id="rec-time" class="rec" hidden></small></div>
       <div class="hud-right">
-        <span class="tally"><span class="kills"><b id="hud-kills">0</b> <span data-i18n="hud.felled">felled</span></span><small id="rec-kills" class="rec" hidden></small></span>
+        <span class="tally"><span class="kills"><span class="kills-ico" aria-hidden="true"></span><b id="hud-kills">0</b> <span class="kills-word" data-i18n="hud.felled">felled</span></span><small id="rec-kills" class="rec" hidden></small></span>
         <button id="btn-hud-music" class="icon-btn icon-plain" type="button" aria-pressed="true" aria-label="Music"></button>
         <button id="btn-pause" class="icon-btn" type="button" data-i18n-aria="hud.pause" aria-label="Pause"></button>
       </div>
@@ -602,6 +681,7 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
   <div id="banners" aria-live="polite"></div>
   <div id="hint" hidden data-i18n-html="hud.hint"></div>
   <footer id="status" hidden><div id="chips"></div><div id="skillbar" role="group" data-i18n-aria="sk.bar" aria-label="Special skills"></div></footer>
+  <div id="stick" class="stick" hidden aria-hidden="true"><i class="stick-knob"></i></div>
 </div>
 
 <div id="tip" class="tip" role="dialog" aria-modal="true" aria-labelledby="tip-title" aria-describedby="tip-text" hidden>
@@ -617,6 +697,7 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
     <div class="title-tools">
       <button id="btn-music" class="tool" type="button" aria-pressed="true">Music on</button>
       <button id="btn-sound" class="tool" type="button" aria-pressed="true">Sound on</button>
+      <button id="btn-stick" class="tool" type="button" aria-pressed="false">Joystick off</button>
       <div class="lang title-lang" role="group" data-i18n-aria="ui.language" aria-label="Language">
         <button class="lang-btn" type="button" data-lang="en" lang="en">English</button>
         <button class="lang-btn" type="button" data-lang="pl" lang="pl">Polski</button>
@@ -702,6 +783,7 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
     <div class="row pause-audio">
       <button id="btn-pause-music" class="btn" type="button" aria-pressed="true">Music on</button>
       <button id="btn-pause-sound" class="btn" type="button" aria-pressed="true">Sound on</button>
+      <button id="btn-pause-stick" class="btn" type="button" aria-pressed="false">Joystick off</button>
     </div>
     <div class="lang" role="group" data-i18n-aria="ui.language" aria-label="Language">
       <button class="lang-btn" type="button" data-lang="en" lang="en">English</button>
@@ -753,7 +835,6 @@ dl.stats dd { margin: 0; font-family: var(--font-data); font-size: 22px; color: 
 
 <section id="screen-wardrobe" class="screen" hidden>
   <div class="decree wide">
-    <p class="eyebrow" data-i18n="wd.eyebrow">Looks only, no advantage</p>
     <h2 data-i18n="wd.title">Wardrobe</h2>
     <div id="wd-tabs" class="wd-tabs" role="tablist"></div>
     <div id="wd-grid" class="wd-grid"></div>
@@ -792,7 +873,9 @@ CF.CONFIG = {
     opening: { budget: 9, inside: 2 } // the first two pawn ranks arrive at once, already inside the view
   },
   board: { size: 256 },     // 256 x 256 squares, king starts in the centre: the edge is a long way off
-  camera: { follow: 9, tilesAcross: 9, tilesDown: 12, minTile: 34, maxTile: 92 },
+  // phones see the board a little closer (squares about 12% bigger): 8.2 squares across upright, 10.5 down when held sideways;
+  // no closer, so the 'in view' rules (Check, Quake, the wrap) keep at least 4 squares to each side of the king
+  camera: { follow: 9, tilesAcross: 9, tilesDown: 12, minTile: 34, maxTile: 92, phone: { maxWidth: 600, maxHeight: 520, tilesAcross: 8.2, tilesDown: 10.5 } },
   input: {
     minSwipePx: 18,         // absolute minimum swipe distance
     minSwipeFrac: 0.035,    // or 3.5% of the short screen side, whichever is larger
@@ -801,7 +884,11 @@ CF.CONFIG = {
     bufferWindow: 1,        // a gesture during the king's cooldown waits in a one-move queue (the latest one wins) instead of being lost
     // Tap to move: a quick touch that barely moves (under tapMaxFrac of the swipe minimum, within tapMaxMs) steps the king
     // one square towards the side of him that was touched (8 sectors of 45 degrees). A tap on his own square does nothing.
-    tap: true, tapMaxMs: 350, tapMaxFrac: 0.6, tapDeadZone: 0.5
+    tap: true, tapMaxMs: 350, tapMaxFrac: 0.6, tapDeadZone: 0.5,
+    // the decree cards ignore taps for a moment after they appear, so a king walking by taps never picks one by accident
+    decreeLockMs: 650,
+    // the on-screen joystick (touch screens, switchable): hold it and the king keeps walking that way, one step whenever he is ready
+    stick: { deadZone: 0.3, travel: 0.62 }
   },
   // Three hearts, no healing. Every hit costs exactly one heart, whoever lands it. Only the Double takes a hit instead.
   // actionCooldown: the king acts at most once per 0.35 s (moves and strikes alike), so the game rewards choices, not tapping speed
@@ -1410,7 +1497,6 @@ CF.I18N = {
       'meta.sceptre.effect': 'The king strikes for {d} more with every blow.',
       'meta.chainmail.name': 'Chainmail',
       'meta.chainmail.effect': 'A blow costs the king {h} of a heart instead of a whole one: with 3 hearts he falls only after {n} blows, not 3.',
-      'wd.eyebrow': 'Looks only, no advantage',
       'wd.title': 'The King\'s New Clothes',
       'wd.white': 'Play as White',
       'wd.whiteSub': 'The classic court.',
@@ -1470,6 +1556,8 @@ CF.I18N = {
       'ui.soundOff': 'Sound off',
       'ui.musicOn': 'Music on',
       'ui.musicOff': 'Music off',
+      'ui.stickOn': 'Joystick on',
+      'ui.stickOff': 'Joystick off',
       'ui.language': 'Language',
       'ui.progressReigns': 'Reigns:',
       'ui.progressLongest': 'Longest reign:',
@@ -1742,6 +1830,7 @@ CF.I18N = {
       'tut.step': '{n} of {m}', 'tut.tap': 'Tap anywhere to play on', 'tut.tapKey': 'Click anywhere or press any key to play on',
       'tut.move.title': 'Moving', 'tut.move.text': 'Swipe in one of eight directions, or tap the screen on the side of the king you want him to go. He takes one step. Between steps he needs a moment of rest.',
       'tut.move.kbd': 'On a keyboard: arrows or WASD, with Q E Z C for diagonals.',
+      'tut.move.stick': 'Or hold the joystick in the bottom corner: the king keeps walking while you hold it.',
       'tut.rest.title': 'Resting',
       'tut.rest.text': 'After every move the king has to rest for a moment. The gold ring at his feet fills up, and once it closes he can move again. In time you will be able to speed him up.',
       'tut.enemies.title': 'Enemies', 'tut.enemies.text': 'The red pieces are coming for the king and strike the way they move in chess. Before a blow lands its squares turn red: step off them, every hit costs a heart.',
@@ -1940,7 +2029,6 @@ CF.I18N = {
       'meta.sceptre.effect': 'Król zadaje o {d} obrażeń więcej przy każdym uderzeniu.',
       'meta.chainmail.name': 'Kolczuga',
       'meta.chainmail.effect': 'Cios zabiera królowi {h} serca zamiast całego: przy 3 sercach pada dopiero po {n} ciosach, a nie po 3.',
-      'wd.eyebrow': 'Tylko wygląd, bez przewagi',
       'wd.title': 'Nowe szaty króla',
       'wd.white': 'Graj białymi',
       'wd.whiteSub': 'Klasyczny dwór.',
@@ -2000,6 +2088,8 @@ CF.I18N = {
       'ui.soundOff': 'Dźwięk wyłączony',
       'ui.musicOn': 'Muzyka włączona',
       'ui.musicOff': 'Muzyka wyłączona',
+      'ui.stickOn': 'Joystick włączony',
+      'ui.stickOff': 'Joystick wyłączony',
       'ui.language': 'Język',
       'ui.progressReigns': 'Panowania:',
       'ui.progressLongest': 'Najdłuższe panowanie:',
@@ -2272,6 +2362,7 @@ CF.I18N = {
       'tut.step': '{n} z {m}', 'tut.tap': 'Dotknij ekranu, aby grać dalej', 'tut.tapKey': 'Kliknij w dowolnym miejscu albo naciśnij klawisz, aby grać dalej',
       'tut.move.title': 'Ruch', 'tut.move.text': 'Przesuń palcem w jednym z ośmiu kierunków albo dotknij ekranu po tej stronie króla, w którą ma pójść. Król zrobi krok o jedno pole. Między krokami potrzebuje chwili odpoczynku.',
       'tut.move.kbd': 'Na klawiaturze: strzałki lub WASD, a skosy to Q E Z C.',
+      'tut.move.stick': 'Możesz też trzymać joystick w dolnym rogu: król idzie, dopóki go trzymasz.',
       'tut.rest.title': 'Odpoczynek',
       'tut.rest.text': 'Po każdym ruchu król musi chwilę odpocząć. Złoty pierścień u jego stóp się zapełnia, a gdy się zamknie, król może ruszyć dalej. Z czasem będziesz mógł go przyspieszyć.',
       'tut.enemies.title': 'Wrogowie', 'tut.enemies.text': 'Czerwone figury będą atakować króla. Poruszają się tak jak w klasycznych szachach. Zanim uderzą, pola pod ciosem robią się czerwone: zejdź z nich, bo każde trafienie zabierze ci 1 życie.',
@@ -3115,6 +3206,61 @@ CF.SwipeInputController = class SwipeInputController {
   }
 };
 
+/* VirtualStick: an on-screen joystick (bottom left). Hold it in one of 8 directions and the king keeps walking that way,
+   one step each time he is ready; let go and he stops. On by default on touch screens; switched in the menu and the pause. */
+CF.VirtualStick = class VirtualStick {
+  constructor(el, game) {
+    this.el = el; this.knob = el.querySelector('.stick-knob'); this.g = game;
+    this.id = null; this.dir = null;
+    this.stats = { presses: 0, steps: 0 };
+    el.addEventListener('pointerdown', (e) => this.down(e), { passive: false });
+    el.addEventListener('pointermove', (e) => this.move(e), { passive: false });
+    el.addEventListener('pointerup', (e) => { if (e.pointerId === this.id) this.release(); });
+    el.addEventListener('pointercancel', (e) => { if (e.pointerId === this.id) this.release(); });
+    el.addEventListener('lostpointercapture', (e) => { if (e.pointerId === this.id) this.release(); });
+    el.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+  static touchDefault() { try { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); } catch (e) { return false; } }
+  get enabled() { const s = this.g.save.data.settings; return s.stick != null ? !!s.stick : CF.VirtualStick.touchDefault(); }
+  setEnabled(on) { this.g.save.data.settings.stick = !!on; this.g.save.save(); if (!on) this.release(); }
+  down(e) {
+    e.preventDefault();
+    if (this.id !== null) return;
+    this.id = e.pointerId; this.stats.presses++;
+    try { this.el.setPointerCapture(e.pointerId); } catch (_) { /* optional */ }
+    this.g.audio.ensure();
+    this.move(e);
+  }
+  move(e) {
+    if (e.pointerId !== this.id) return;
+    e.preventDefault();
+    const c = CF.CONFIG.input.stick, r = this.el.getBoundingClientRect(), R = r.width / 2;
+    const dx = e.clientX - (r.left + R), dy = e.clientY - (r.top + R), d = Math.hypot(dx, dy), ang = Math.atan2(dy, dx);
+    const reach = Math.min(d, R * c.travel);
+    this.knob.style.transform = 'translate(' + (Math.cos(ang) * reach).toFixed(1) + 'px,' + (Math.sin(ang) * reach).toFixed(1) + 'px)';
+    let dir = null;
+    if (d > R * c.deadZone) { const sct = Math.round(ang * 4 / Math.PI); dir = CF.DIRS8[((sct % 8) + 8) % 8]; }
+    const changed = !!dir && (!this.dir || dir[0] !== this.dir[0] || dir[1] !== this.dir[1]);
+    this.dir = dir;
+    this.el.classList.toggle('on', !!dir);
+    if (changed) this.push(true);
+  }
+  release() {
+    try { if (this.id !== null && this.el.hasPointerCapture && this.el.hasPointerCapture(this.id)) this.el.releasePointerCapture(this.id); } catch (_) { /* ignore */ }
+    this.id = null; this.dir = null;
+    this.knob.style.transform = '';
+    this.el.classList.remove('on');
+  }
+  /* a new direction asks at once (it waits in the one-move queue if the king is resting); a held one steps whenever he is ready */
+  push(fresh) {
+    const g = this.g, p = g.player;
+    if (!this.dir || g.state !== 'playing' || !p || !g.king) return;
+    const ready = p.cooldown <= 0 && g.king.animT >= 1 && !p.buffer;
+    if (fresh || ready) { p.request(this.dir, 'stick'); this.stats.steps++; }
+  }
+  update() { if (this.dir) this.push(false); }
+};
+
 // ===== 06_audio.js =====
 'use strict';
 /* AudioManager: every sound is synthesized with WebAudio (no asset files).
@@ -3324,11 +3470,11 @@ CF.AudioManager = class AudioManager {
   }
   mtof(m) { return 440 * Math.pow(2, (m - 69) / 12); }
   /* intensity 0..1 follows the run's pacing; called every frame */
-  updateMusic(intensity, playing) {
+  updateMusic(intensity, playing, menu) {
     if (!this.music || !this.ctx) return;
     const m = this.music, ctx = this.ctx, t = ctx.currentTime;
     this.intensity = intensity;
-    m.out.gain.setTargetAtTime(playing ? 1 : 0.3, t, 0.15); // menus and pauses: the band keeps playing, quietly
+    m.out.gain.setTargetAtTime(playing ? 1 : menu ? 0.75 : 0.3, t, 0.15); // the main menu: the band plays on, a little softer; pauses: quietly
     if (this.muted || this.musicOff) { m.next = t + 0.1; return; } // nothing is scheduled while the music is off
     if (m.next < t - 0.25) { m.next = t + 0.05; m.step = Math.ceil(m.step / 4) * 4; } // the tab slept: pick the beat up again
     const beat = this.musicBeat(intensity);
@@ -7171,8 +7317,10 @@ CF.CoinSystem = class CoinSystem {
       this.w = w; this.h = h; this.dpr = dpr;
       this.canvas.width = Math.round(w * dpr); this.canvas.height = Math.round(h * dpr);
       this.canvas.style.width = w + 'px'; this.canvas.style.height = h + 'px';
-      const c = CF.CONFIG.camera;
-      this.tile = Math.round(CF.U.clamp(Math.min(w / c.tilesAcross, h / c.tilesDown), c.minTile, c.maxTile));
+      const c = CF.CONFIG.camera, ph = c.phone;
+      // a phone sees the board a little closer: upright (narrow) fewer squares across, sideways (short) fewer down
+      const across = ph && w <= ph.maxWidth && h > w ? ph.tilesAcross : c.tilesAcross, down = ph && h <= ph.maxHeight && w > h ? ph.tilesDown : c.tilesDown;
+      this.tile = Math.round(CF.U.clamp(Math.min(w / across, h / down), c.minTile, c.maxTile));
       this.g.view = { halfW: w / this.tile / 2, halfH: h / this.tile / 2 };
       this.sprites.clear();
       this.buildTiles();
@@ -8716,7 +8864,7 @@ CF.Game = class Game {
   pause() { if (this.state === 'playing') { this.state = 'paused'; this.checkpoint(); this.bus.emit('paused'); } }
   resume() { if (this.state === 'paused') { this.state = 'playing'; this.acc = 0; this.bus.emit('resumed'); } }
   abandon() { if (this.state === 'paused') { this.state = 'playing'; this.endRun('abandoned'); } }
-  toTitle() { this.state = 'title'; this.audio.stopMusic(); this.bus.emit('toTitle'); }
+  toTitle() { this.state = 'title'; if (this.audio.ctx) this.audio.startMusic(); this.bus.emit('toTitle'); } // the menu keeps its soundtrack
   /* ---------- spawning & movement ---------- */
   spawnEnemy(type, x, y, orient, opts) {
     const pool = this.enemyPools[type];
@@ -9300,7 +9448,7 @@ CF.Game = class Game {
       }
     }
     if (this.renderer) this.renderer.render(dt);
-    this.audio.updateMusic(this.difficulty.u, this.state === 'playing');
+    this.audio.updateMusic(this.state === 'title' ? 0.12 : this.difficulty.u, this.state === 'playing', this.state === 'title');
     if (this.ui) this.ui.frame(dt);
   }
   /* ---------- test & debug helpers (used by automated tests) ---------- */
@@ -9349,6 +9497,8 @@ CF.ICONS = (() => {
     restore: s('M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v4.5H9'),
     tick: s('M5 12.5l4.5 4.5L19 7.5'),
     note: s('M9 18a2.5 2.5 0 1 1-2.5-2.5H9zM9 18V5.5l10-2V15M19 15a2.5 2.5 0 1 1-2.5-2.5H19'),
+    stick: s('M12 3.5a8.5 8.5 0 1 0 0.01 0zM12 8.5a3.5 3.5 0 1 0 0.01 0z'),
+    stickOff: s('M12 3.5a8.5 8.5 0 1 0 0.01 0zM12 8.5a3.5 3.5 0 1 0 0.01 0zM3.5 3.5l17 17'),
     noteOff: s('M9 18a2.5 2.5 0 1 1-2.5-2.5H9zM9 18V5.5l10-2V15M19 15a2.5 2.5 0 1 1-2.5-2.5H19M3.5 3.5l17 17'),
     trophy: s('M8 4.5h8v4a4 4 0 0 1-8 0zM8 6H4.5c0 3 1.5 4.5 3.8 4.6M16 6h3.5c0 3-1.5 4.5-3.8 4.6M12 12.5V17M8.5 20.5h7M9.5 17h5v3.5h-5z'),
     chest: s('M3.5 10h17v9.5h-17zM3.5 10V8a3.5 3.5 0 0 1 3.5-3.5h10A3.5 3.5 0 0 1 20.5 8v2M10.5 13h3v2.5h-3z')
@@ -9363,6 +9513,7 @@ CF.GameUI = class GameUI {
     this.chipT = 0;
     this.current = 'screen-title';
     this.last = {};
+    { const ki = document.querySelector('.kills-ico'); if (ki) ki.innerHTML = CF.ICONS.swords; } // the felled count's sign on narrow phones
     this.lastEdgeBanner = -99; this.lastLevyBanner = -99; this.lastDeferBanner = -99;
     this.bind();
     this.subscribe();
@@ -9419,6 +9570,8 @@ CF.GameUI = class GameUI {
     on('btn-start', () => { const tut = (!g.save.data.tutorialDone && !g.save.data.stats.runs) || !!this.forceTutorial; this.forceTutorial = false; this.start({ tutorial: tut }); });
     // a tip closes with a tap anywhere, or any key, once it has been on screen for a moment (a swipe in progress never closes it)
     window.addEventListener('resize', () => { if (this.tipMust != null && !this.$('tip').hidden) requestAnimationFrame(() => this.placeTipSkill()); });
+    window.addEventListener('resize', () => { if (this.current === 'screen-levelup') requestAnimationFrame(() => this.fitDecrees()); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (this.current === 'screen-levelup') this.fitDecrees(); });
     // the Queen's tip in the first reign: only a tap on the lit Queen (or her key) goes on
     this.$('tip').addEventListener('pointerdown', (e) => {
       e.preventDefault();
@@ -9513,6 +9666,8 @@ CF.GameUI = class GameUI {
     on('btn-sound', () => { g.audio.setMuted(!g.audio.muted); this.renderTitle(); });
     // music on/off: title menu, pause menu and the small note button in the HUD
     for (const id of ['btn-music', 'btn-pause-music', 'btn-hud-music']) on(id, () => { g.audio.setMusicOff(!g.audio.musicOff); this.renderMusicButtons(); });
+    on('btn-stick', () => { if (g.stick) g.stick.setEnabled(!g.stick.enabled); this.renderMusicButtons(); });
+    on('btn-pause-stick', () => { if (g.stick) g.stick.setEnabled(!g.stick.enabled); this.renderMusicButtons(); });
     on('btn-pause-sound', () => { g.audio.setMuted(!g.audio.muted); this.renderMusicButtons(); });
     on('btn-pause', () => g.pause());
     on('btn-resume', () => g.resume());
@@ -9537,11 +9692,16 @@ CF.GameUI = class GameUI {
     });
     this.$('lv-cards').addEventListener('click', (e) => {
       const b = e.target.closest('[data-upgrade]');
-      if (b) { g.audio.ensure(); g.chooseUpgrade(b.dataset.upgrade); }
+      if (!b || performance.now() < (this.lvReadyAt || 0)) return; // the cards have only just appeared
+      g.audio.ensure(); g.chooseUpgrade(b.dataset.upgrade);
     });
+    // the main menu has its soundtrack too: the first touch or key starts it (browsers allow sound only after one)
+    const wake = () => { g.audio.ensure(); if (g.state === 'title') g.audio.startMusic(); };
+    window.addEventListener('pointerdown', wake, { capture: true });
+    window.addEventListener('keydown', wake, { capture: true });
     window.addEventListener('keydown', (e) => {
       if (g.state === 'playing' && /^Digit[1-3]$|^Numpad[1-3]$/.test(e.code) && !e.repeat) { e.preventDefault(); g.skills.use(Number(e.code.slice(-1)) - 1); this.cache.skills = null; }
-      if (g.state === 'levelup' && /^Digit[1-4]$|^Numpad[1-4]$/.test(e.code)) {
+      if (g.state === 'levelup' && /^Digit[1-4]$|^Numpad[1-4]$/.test(e.code) && performance.now() >= (this.lvReadyAt || 0)) {
         const i = Number(e.code.slice(-1)) - 1;
         if (g.choices && g.choices[i]) { e.preventDefault(); g.chooseUpgrade(g.choices[i]); }
       }
@@ -9644,7 +9804,8 @@ CF.GameUI = class GameUI {
     const t = CF.t, kbd = (d.id === 'move' || d.id === 'skills') && !(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
     this.tipOver = !!d.over; this.tipId = d.id;
     this.$('tip-title').textContent = t('tut.' + d.id + '.title');
-    this.$('tip-text').textContent = t('tut.' + d.id + '.text') + (kbd ? ' ' + t('tut.' + d.id + '.kbd') : '');
+    const stick = d.id === 'move' && this.g.stick && this.g.stick.enabled;
+    this.$('tip-text').textContent = t('tut.' + d.id + '.text') + (kbd ? ' ' + t('tut.' + d.id + '.kbd') : '') + (stick ? ' ' + t('tut.move.stick') : '');
     this.$('tip-step').textContent = t('tut.step', { n: d.n, m: CF.TUTORIAL_TIPS.length });
     const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
     // the first reign's Queen: the board goes dark, only her button is lit, and nothing else goes on
@@ -9653,7 +9814,9 @@ CF.GameUI = class GameUI {
     this.$('tip-tap').textContent = this.tipMust != null ? (coarse ? t('tut.tapQueen') : t('tut.tapQueenKey', { n: this.tipMust + 1 })) : coarse ? t('tut.tap') : t('tut.tapKey');
     this.$('skillbar').classList.toggle('tip-focus', d.id === 'skills' && this.tipMust == null);
     const tip = this.$('tip');
-    tip.classList.remove('ready'); tip.classList.toggle('at-top', d.id === 'skills'); tip.classList.toggle('must', this.tipMust != null); tip.hidden = false;
+    tip.classList.remove('ready'); tip.classList.toggle('at-top', d.id === 'skills'); tip.classList.toggle('must', this.tipMust != null);
+    tip.classList.toggle('over', this.tipOver || this.current === 'screen-levelup'); // over the decree cards: the cards recede, the note glows
+    tip.hidden = false;
     this.placeTipSkill();
     this.tipReadyAt = performance.now() + 450;
     clearTimeout(this.tipReadyT); this.tipReadyT = setTimeout(() => tip.classList.add('ready'), 450);
@@ -9745,6 +9908,28 @@ CF.GameUI = class GameUI {
         '<p class="shop-flavor">' + this.esc(caption) + '</p>' + cond + eff + '</div></li>';
     }).join('');
   }
+  /* The joystick: shown only while the reign is on screen; lifted above the skill buttons when they reach its corner */
+  stickFrame() {
+    const g = this.g, st = this.$('stick'), s = g.stick;
+    if (!st || !s) return;
+    const show = s.enabled && g.state === 'playing' && !this.current && this.$('tip').hidden;
+    if (st.hidden === show) { st.hidden = !show; if (!show) s.release(); this.stickPlaceT = 0; document.body.classList.toggle('stick-on', show); }
+    if (!show) return;
+    s.update();
+    this.stickPlaceT = (this.stickPlaceT || 0) - 1;
+    if (this.stickPlaceT > 0) return;
+    this.stickPlaceT = 20; // every 20 frames is plenty
+    const r = st.getBoundingClientRect(), base = 18;
+    let lift = 0;
+    const near = [...this.$('status').querySelectorAll('#skillbar > *, #chips > *')];
+    if (!this.$('hint').hidden) near.push(this.$('hint')); // the first reign's hint: the joystick waits above it
+    for (const el of near) {
+      const b = el.getBoundingClientRect();
+      if (b.width && b.left < r.right + 8 && b.right > r.left - 8) lift = Math.max(lift, window.innerHeight - b.top + 10);
+    }
+    const bottom = lift ? Math.round(lift) + 'px' : '';
+    if (st.style.bottom !== bottom) st.style.bottom = bottom;
+  }
   /* Music and sound switches (title, pause, HUD) */
   renderMusicButtons() {
     const g = this.g, t = CF.t, off = g.audio.musicOff, I = CF.ICONS;
@@ -9752,6 +9937,11 @@ CF.GameUI = class GameUI {
     for (const id of ['btn-music', 'btn-pause-music']) { const b = this.$(id); if (b) { b.innerHTML = (off ? I.noteOff : I.note) + '<span>' + label + '</span>'; b.setAttribute('aria-pressed', String(!off)); b.title = off ? t('ui.musicOff') : t('ui.musicOn'); } }
     const h = this.$('btn-hud-music');
     if (h) { h.innerHTML = off ? I.noteOff : I.note; h.setAttribute('aria-pressed', String(!off)); h.setAttribute('aria-label', off ? t('ui.musicOff') : t('ui.musicOn')); h.classList.toggle('off', off); }
+    const on = !!(g.stick && g.stick.enabled), sl = on ? t('ui.stickOn') : t('ui.stickOff');
+    const ts = this.$('btn-stick');
+    if (ts) { ts.innerHTML = (on ? I.stick : I.stickOff) + '<span>' + this.esc(sl) + '</span>'; ts.setAttribute('aria-pressed', String(on)); ts.title = sl; }
+    const pst = this.$('btn-pause-stick');
+    if (pst) { pst.innerHTML = (on ? I.stick : I.stickOff) + '<span>' + this.esc(sl) + '</span>'; pst.setAttribute('aria-pressed', String(on)); }
     const ps = this.$('btn-pause-sound');
     if (ps) { ps.innerHTML = (g.audio.muted ? I.mute : I.sound) + '<span>' + this.esc(g.audio.muted ? t('ui.soundOff') : t('ui.soundOn')) + '</span>'; ps.setAttribute('aria-pressed', String(!g.audio.muted)); }
   }
@@ -10018,6 +10208,22 @@ CF.GameUI = class GameUI {
     this.$('lv-cards').style.setProperty('--n', String(d.choices.length));
     this.show('screen-levelup');
     this.fillArt(this.$('lv-cards'));
+    this.fitDecrees();
+    // a short wait before a card can be picked, so a tap meant for walking never chooses one
+    const lock = CF.CONFIG.input.decreeLockMs || 0, cards = this.$('lv-cards');
+    this.lvReadyAt = performance.now() + lock;
+    cards.classList.toggle('arming', lock > 0);
+    clearTimeout(this.lvArmT); this.lvArmT = setTimeout(() => cards.classList.remove('arming'), lock);
+  }
+  /* The decree screen must fit the screen without scrolling: tighten it step by step (fit1 to fit6), only as far as needed */
+  fitDecrees() {
+    const s = this.$('screen-levelup');
+    if (!s || s.hidden) return;
+    const steps = ['fit1', 'fit2', 'fit3', 'fit4', 'fit5', 'fit6'];
+    s.classList.remove(...steps);
+    const over = () => s.scrollHeight > s.clientHeight + 1;
+    for (const c of steps) { if (!over()) break; s.classList.add(c); }
+    this.decreeFit = steps.filter((c) => s.classList.contains(c)).length;
   }
   renderReward(r) {
     const g = this.g, root = this.$('screen-reward'), t = CF.t;
@@ -10146,6 +10352,7 @@ CF.GameUI = class GameUI {
   }
   frame(dt) {
     const g = this.g, t = CF.t;
+    this.stickFrame();
     if (!['playing', 'paused', 'levelup', 'reward', 'tip'].includes(g.state)) return;
     const k = g.king;
     const left = g.runDuration - g.elapsed;
@@ -10272,6 +10479,8 @@ CF.GameUI = class GameUI {
     const v = k.visPos ? k.visPos() : [k.x, k.y], [x, y] = r.toScreen(v[0], v[1]); // where the player sees him
     return { x: x - (r.sx || 0), y: y - (r.sy || 0), tile: r.tile };
   };
+  const stickEl = document.getElementById('stick');
+  if (stickEl) game.stick = new CF.VirtualStick(stickEl, game);
   game.ui = new CF.GameUI(game);
   let resizeT = 0;
   window.addEventListener('resize', () => {
