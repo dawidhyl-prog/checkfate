@@ -16,7 +16,14 @@ Progress is saved in the browser (localStorage). The game is one self-contained 
 
 ## Controls
 
-Swipe in any of eight directions to move the king one square, or simply tap the screen on the side of the king you want him to go (on a keyboard: arrows or WASD, plus Q E Z C for the diagonals). Step into an enemy piece to strike it. Red squares are about to be struck.
+Move the king one square at a time, in any of eight directions:
+
+- swipe in that direction,
+- tap the screen on that side of the king,
+- or hold the on-screen joystick (touch screens; it can be switched off in the menu),
+- on a keyboard: arrows or WASD, plus Q E Z C for the diagonals.
+
+Step into an enemy piece to strike it. Red squares are about to be struck.
 
 ## For testers
 
